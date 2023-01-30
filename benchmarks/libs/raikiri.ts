@@ -63,3 +63,11 @@ for (i = 0; i < operations; i++) {
     router.match('GET', '/static/index.html')
 }
 print('wildcard:', time)
+
+// Uncomment this if correction need 😭😭💢💢💢
+// console.log(router.match('GET', '/user'))
+// console.log(router.match('GET', '/user/comments'))
+// console.log(router.match('GET', '/user/lookup/username/john'))
+// console.log(router.match('GET', '/event/abcd1234/comments'))
+// console.log(router.match('GET', '/very/deeply/nested/route/hello/there'))
+// console.log(router.match('GET', '/static/index.html'))
