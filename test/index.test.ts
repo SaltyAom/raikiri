@@ -88,4 +88,44 @@ describe('Raikiri', () => {
             }
         })
     })
+
+    it('wildcard on root path', () => {
+        const router = new Raikiri()
+
+        router.add('GET', '/a/b', 'ok')
+        router.add('GET', '/*', 'all')
+
+        expect(router.match('GET', '/a/b/c/d')).toEqual({
+            store: 'all',
+            params: {
+                '*': '/a/b/c/d'
+            }
+        })
+
+        expect(router.match('GET', '/')).toEqual({
+            store: 'all',
+            params: {
+                '*': '/'
+            }
+        })
+    })
+
+    it('can overwrite wildcard', () => {
+        const router = new Raikiri()
+
+        router.add('GET', '/', 'ok')
+        router.add('GET', '/*', 'all')
+
+        expect(router.match('GET', '/a/b/c/d')).toEqual({
+            store: 'all',
+            params: {
+                '*': '/a/b/c/d'
+            }
+        })
+
+        expect(router.match('GET', '/')).toEqual({
+            store: 'ok',
+            params: {}
+        })
+    })
 })

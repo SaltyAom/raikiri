@@ -55,6 +55,15 @@ export class Raikiri<T> {
             return
         }
 
+        // Catch all root wildcard
+        if (paths[1] === '*' && paths[0] === '/' && paths.length === 2) {
+            const wildcardNode = createNode<T>()
+            wildcardNode.store = store
+            this.root[method].children.set('*', wildcardNode)
+
+            return
+        }
+
         for (let i = 0; i < paths.length; i++) {
             const path = paths[i]
             const isLast = i === paths.length - 1
@@ -148,6 +157,8 @@ export class Raikiri<T> {
         }
 
         node.store = store
+
+        // console.log(this.root[method])
     }
 
     match(method: string, path: string) {
@@ -160,6 +171,22 @@ export class Raikiri<T> {
                 store: root,
                 params: {}
             }
+
+        // console.log(path, node.children.has('*'))
+
+        // if (
+        //     node.children.has('*') ||
+        //     node.children.get('/')?.children.has('*')
+        // ) {
+        //     return {
+        //         store:
+        //             node.children.get('*')?.store ||
+        //             node.children.get('/')?.children.get('*')?.store,
+        //         params: {
+        //             '*': path
+        //         }
+        //     }
+        // }
 
         let params: { [key: string]: string } = {}
         let depth = 0
