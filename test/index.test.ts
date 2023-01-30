@@ -128,4 +128,21 @@ describe('Raikiri', () => {
             params: {}
         })
     })
+
+    it('handle trailing slash', () => {
+        const router = new Raikiri()
+
+        router.add('GET', '/abc/def', 'A')
+        router.add('GET', '/abc/def/', 'A')
+
+        expect(router.match('GET', '/abc/def')).toEqual({
+            store: 'A',
+            params: {}
+        })
+
+        expect(router.match('GET', '/abc/def/')).toEqual({
+            store: 'A',
+            params: {}
+        })
+    })
 })

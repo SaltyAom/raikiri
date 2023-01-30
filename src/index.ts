@@ -38,12 +38,14 @@ export class Raikiri<T> {
             paths[paths.length - 1] += `${part}/`
         })
 
-        // Remove trailing slash
-        if (path !== '/')
-            paths[paths.length - 1] = paths[paths.length - 1].slice(
-                0,
-                paths[paths.length - 1].length - 1
-            )
+        if (!path.endsWith('/')) {
+            // Remove trailing slash
+            if (path !== '/')
+                paths[paths.length - 1] = paths[paths.length - 1].slice(
+                    0,
+                    paths[paths.length - 1].length - 1
+                )
+        }
 
         if (paths.length > 1 && paths[paths.length - 1] === '') paths.pop()
 
