@@ -1,6 +1,7 @@
 {
   "name": "raikiri",
-  "version": "0.0.0-beta.3",
+  "version": "0.0.0-beta.4",
+  "type": "module",
   "description": "A fast router optimized for static path searching",
   "author": {
     "name": "saltyAom",
@@ -32,6 +33,7 @@
     "test": "bun wiptest",
     "build": "rimraf dist && tsc --project tsconfig.esm.json",
     "benchmark": "bun benchmarks/index.ts",
+    "benchmark:raikiri": "bun benchmarks/libs/raikiri.ts",
     "release": "npm run build && npm run test && npm publish --access public"
   },
   "devDependencies": {

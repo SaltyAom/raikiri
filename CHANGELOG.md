@@ -1,1 +1,4 @@
-# 0.1.0 - 30 Jan 2023
+# 0.1.0-beta.4 - 1 Feb 2023
+Improvement:
+- Using charCode for fast fracture mapping
+- Auto re-ordering for static path
