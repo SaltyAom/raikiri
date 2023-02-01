@@ -101,6 +101,8 @@ export class Raikiri<T> {
                     if (prefix !== path && prefix !== COLON) {
                         const part = path.slice(prefixLength)
 
+                        iterated = true
+
                         if (!node.children.has(fracture))
                             if (
                                 node.children.has(COLON) ||
@@ -118,10 +120,14 @@ export class Raikiri<T> {
                                     ordered.set(key, value)
 
                                 node.children = ordered
-                            } else node.children.set(part, createNode<T>())
+                            } else {
+                                node.children.set(part, createNode<T>())
+                            }
 
-                        if (!node.static) node.static = {}
-                        node.static[part] = store
+                        if (isLast) {
+                            if (!node.static) node.static = {}
+                            node.static[part] = store
+                        }
 
                         node = node.children.get(fracture)!
                     }
@@ -145,9 +151,13 @@ export class Raikiri<T> {
                     node.children.delete(key)
 
                     if (migrate !== COLON) {
-                        if (!node.static) node.static = {}
-                        node.static[migrate] =
+                        const migrateStore =
                             branchNode.children.get(migrate)?.store!
+
+                        if (migrateStore) {
+                            if (!branchNode.static) branchNode.static = {}
+                            branchNode.static[migrate] = migrateStore
+                        }
                     }
 
                     node.children.set(prefix, branchNode)

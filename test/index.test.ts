@@ -145,4 +145,24 @@ describe('Raikiri', () => {
             params: {}
         })
     })
+
+    it('handle static prefix wildcard', () => {
+        const router = new Raikiri()
+        router.add('GET', '/a/b', 'ok')
+        router.add('GET', '/*', 'all')
+
+        expect(router.match('GET', '/a/b/c/d')).toEqual({
+            store: 'all',
+            params: {
+                '*': '/a/b/c/d'
+            }
+        })
+
+        expect(router.match('GET', '/')).toEqual({
+            store: 'all',
+            params: {
+                '*': '/'
+            }
+        })
+    })
 })
