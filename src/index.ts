@@ -205,12 +205,10 @@ export class Raikiri<T> {
                 params: {}
             }
 
-        const clear = path.length - 2
         let params: { [key: string]: string } = {}
         let depth = 0
 
-        while (true) {
-            let isEnd = true
+        find: while (true) {
             const children = node.children
 
             for (const fracture of children.keys()) {
@@ -227,21 +225,19 @@ export class Raikiri<T> {
                         params[node.name!] = value
 
                         depth += value.length
-                        isEnd = false
-                        break
                     }
                     // Since it's special characters and not : then it's wildcard
                     else {
                         params['*'] = path.slice(depth)
 
                         return {
-                            store: node.children.get(WILDCARD)!.store,
+                            store: children.get(WILDCARD)!.store,
                             params
                         }
                     }
 
                     // Special characters should all be matched above, abort if not
-                    break
+                    continue find
                 }
 
                 const current = depth + fracture.length
@@ -262,7 +258,7 @@ export class Raikiri<T> {
                      *
                      * This means we need to check path left by using current <= clear
                      */
-                    if (current <= clear) continue
+                    if (current <= path.length - 2) continue
 
                     return {
                         store: root,
@@ -273,12 +269,11 @@ export class Raikiri<T> {
                 if (children.has(part)) {
                     node = children.get(part)!
                     depth += part.length
-                    isEnd = false
-                    break
+                    continue find
                 }
             }
 
-            if (isEnd) break
+            break
         }
 
         if (node.store) return { store: node.store, params }
