@@ -1,4 +1,8 @@
-# 0.1.0-beta.6 - 1 Feb 2023
+# 0.1.0-beta.7 - 23 Feb 2023
+Fix:
+- Set dependencies to devDependencies
+
+# 0.1.0-beta.6 - 23 Feb 2023
 Improvement:
 - add cjs support
 

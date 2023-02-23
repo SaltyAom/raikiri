@@ -2,7 +2,7 @@
 .gitignore
 .prettierrc
 .cjs.swcrc
-.es.swcrc
+.esm.swcrc
 bun.lockb
 
 node_modules
