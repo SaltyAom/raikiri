@@ -194,7 +194,7 @@ export class Raikiri<T> {
         node.store = store
     }
 
-    match(method: string, path: string) {
+    match = (method: string, path: string) => {
         let node = this.root[method]
         if (!node) return
 

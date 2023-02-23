@@ -1,6 +1,6 @@
 {
   "name": "raikiri",
-  "version": "0.0.0-beta.5",
+  "version": "0.0.0-beta.6",
   "type": "module",
   "description": "A fast router optimized for static path searching",
   "author": {
@@ -10,10 +10,8 @@
   },
   "main": "./dist/index.js",
   "exports": {
-    "require": "./dist/index.js",
-    "import": "./dist/index.js",
-    "node": "./dist/index.js",
-    "default": "./dist/index.js"
+    "require": "./dist/cjs/index.js",
+    "import": "./dist/index.js"
   },
   "types": "./src/index.ts",
   "keywords": [
@@ -31,7 +29,7 @@
   "scripts": {
     "dev": "bun run --hot example/index.ts",
     "test": "bun wiptest",
-    "build": "rimraf dist && tsc --project tsconfig.esm.json",
+    "build": "rimraf dist && tsc --project tsconfig.esm.json && tsc --project tsconfig.cjs.json",
     "benchmark": "bun benchmarks/index.ts",
     "benchmark:raikiri": "bun benchmarks/libs/raikiri.ts",
     "release": "npm run build && npm run test && npm publish --access public"
