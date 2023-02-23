@@ -1,3 +1,7 @@
+# 0.1.0-beta.8 - 23 Feb 2023
+Fix:
+- Don't enforce es module
+
 # 0.1.0-beta.7 - 23 Feb 2023
 Fix:
 - Set dependencies to devDependencies
