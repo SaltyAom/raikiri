@@ -1,13 +1,19 @@
 .git
 .gitignore
 .prettierrc
+.swcrc
 .cjs.swcrc
 .esm.swcrc
+.eslintrc.js
+
 bun.lockb
+pnpm-lock.yaml
 
 node_modules
 tsconfig.json
-pnpm-lock.yaml
+tsconfig.cjs.json
+tsconfig.esm.json
+CHANGELOG.md
 jest.config.js
 nodemon.json
 
@@ -15,7 +21,4 @@ example
 tests
 test
 CHANGELOG.md
-.eslintrc.js
-tsconfig.cjs.json
-tsconfig.esm.json
 benchmarks
