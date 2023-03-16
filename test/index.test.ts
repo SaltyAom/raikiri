@@ -98,14 +98,14 @@ describe('Raikiri', () => {
         expect(router.match('GET', '/a/b/c/d')).toEqual({
             store: 'all',
             params: {
-                '*': '/a/b/c/d'
+                '*': 'a/b/c/d'
             }
         })
 
         expect(router.match('GET', '/')).toEqual({
             store: 'all',
             params: {
-                '*': '/'
+                '*': ''
             }
         })
     })
@@ -119,7 +119,7 @@ describe('Raikiri', () => {
         expect(router.match('GET', '/a/b/c/d')).toEqual({
             store: 'all',
             params: {
-                '*': '/a/b/c/d'
+                '*': 'a/b/c/d'
             }
         })
 
@@ -154,14 +154,34 @@ describe('Raikiri', () => {
         expect(router.match('GET', '/a/b/c/d')).toEqual({
             store: 'all',
             params: {
-                '*': '/a/b/c/d'
+                '*': 'a/b/c/d'
             }
         })
 
         expect(router.match('GET', '/')).toEqual({
             store: 'all',
             params: {
-                '*': '/'
+                '*': ''
+            }
+        })
+    })
+
+    // ? https://github.com/SaltyAom/raikiri/issues/2
+    // Migrate from mei to ei should work
+    it('dynamic root', () => {
+        const router = new Raikiri()
+        router.add('GET', '/', 'root')
+        router.add('GET', '/:param', 'it worked')
+
+        expect(router.match('GET', '/')).toEqual({
+            store: 'root',
+            params: {}
+        })
+
+        expect(router.match('GET', '/bruh')).toEqual({
+            store: 'it worked',
+            params: {
+                param: 'bruh'
             }
         })
     })

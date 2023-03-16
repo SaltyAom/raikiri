@@ -64,7 +64,7 @@ for (i = 0; i < operations; i++) {
 }
 print('wildcard:', time)
 
-// Uncomment this if correction need 😭😭💢💢💢
+// Uncomment this if correction is need 😭😭💢💢💢
 // console.log(router.match('GET', '/user'))
 // console.log(router.match('GET', '/user/comments'))
 // console.log(router.match('GET', '/user/lookup/username/john'))
