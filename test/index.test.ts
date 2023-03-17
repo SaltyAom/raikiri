@@ -185,4 +185,17 @@ describe('Raikiri', () => {
             }
         })
     })
+
+    it('handle wildcard without static fallback', () => {
+        const router = new Raikiri()
+        router.add('GET', '/public/*', 'foo')
+        router.add('GET', '/public-aliased/*', 'foo')
+
+        expect(router.match('GET', '/public/takodachi.png')?.params['*']).toBe(
+            'takodachi.png'
+        )
+        expect(
+            router.match('GET', '/public/takodachi/ina.png')?.params['*']
+        ).toBe('takodachi/ina.png')
+    })
 })

@@ -405,7 +405,8 @@ const iterate = <T>(
                 params
             )
         } else if (node.children.has(WILDCARD)) {
-            params['*'] = path.slice(node.part.length)
+            if (node.part) params['*'] = path.slice(node.part.length)
+            else params['*'] = path
 
             return {
                 store: node.children.get(WILDCARD)!.store,

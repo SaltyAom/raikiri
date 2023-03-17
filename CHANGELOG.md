@@ -1,4 +1,8 @@
 # 0.1.0-beta.0 - 15 Mar 2023
+Fix:
+- Wildcard without static fallback fail to resolve path
+
+# 0.1.0-beta.0 - 15 Mar 2023
 Improvement:
 - Rewrite router
 - Using single decision path parameter
