@@ -321,10 +321,12 @@ const iterateFirst = <T>(
     path: string,
     node: RadixNode<T>,
     params: Record<string, string>
-): {
-    store: T | undefined
-    params: Record<string, string>
-} => {
+):
+    | {
+          store: T
+          params: Record<string, string>
+      }
+    | undefined => {
     const child = node.children.get(path.charCodeAt(node.part?.length))
 
     if (!child) {
@@ -335,10 +337,12 @@ const iterateFirst = <T>(
             if (nextSlash === -1) {
                 params[dynamic.param!] = path.slice(node.part.length)
 
-                return {
-                    store: dynamic.store,
-                    params
-                }
+                if (dynamic.store)
+                    return {
+                        store: dynamic.store!,
+                        params
+                    }
+                else return
             }
 
             params[dynamic.param!] = path.slice(node.part.length, nextSlash)
@@ -351,16 +355,22 @@ const iterateFirst = <T>(
         } else if (node.children.has(WILDCARD)) {
             params['*'] = path.slice(node.part.length)
 
-            return {
-                store: node.children.get(WILDCARD)!.store,
-                params
-            }
+            const store = node.children.get(WILDCARD)!.store
+
+            if (store)
+                return {
+                    store,
+                    params
+                }
+            else return
         }
 
-        return {
-            store: node.store,
-            params
-        }
+        if (node.store)
+            return {
+                store: node.store,
+                params
+            }
+        else return
     }
 
     return iterate(path.slice(node.part.length + 1), child, params)
@@ -370,10 +380,12 @@ const iterate = <T>(
     path: string,
     node: RadixNode<T>,
     params: Record<string, string>
-): {
-    store: T | undefined
-    params: Record<string, string>
-} => {
+):
+    | {
+          store: T
+          params: Record<string, string>
+      }
+    | undefined => {
     const store = node.static?.[path]
     if (store)
         return {
@@ -391,10 +403,12 @@ const iterate = <T>(
             if (nextSlash === -1) {
                 params[dynamic.param!] = path.slice(node.part.length)
 
-                return {
-                    store: dynamic.store,
-                    params
-                }
+                if (dynamic.store)
+                    return {
+                        store: dynamic.store,
+                        params
+                    }
+                return
             }
 
             params[dynamic.param!] = path.slice(node.part.length, nextSlash)
@@ -408,16 +422,22 @@ const iterate = <T>(
             if (node.part) params['*'] = path.slice(node.part.length)
             else params['*'] = path
 
-            return {
-                store: node.children.get(WILDCARD)!.store,
-                params
-            }
+            const store = node.children.get(WILDCARD)!.store
+
+            if (store)
+                return {
+                    store,
+                    params
+                }
+            else return
         }
 
-        return {
-            store: node.store,
-            params
-        }
+        if (node.store)
+            return {
+                store: node.store,
+                params
+            }
+        else return
     }
 
     return iterate(path.slice(node.part.length + 1), child, params)
