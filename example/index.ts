@@ -1,22 +1,18 @@
 import { Raikiri } from '../src'
 
-const foo = null
-
 const router = new Raikiri()
+router.add('GET', '/abc', '/abc')
+router.add('GET', '/id/:id/book', 'book')
+router.add('GET', '/id/:id/bowl', 'bowl')
 
-router.add('GET', '/public/*', 'foo')
-router.add('GET', '/public-aliased/*', 'foo')
+router.add('GET', '/', '/')
+router.add('GET', '/id/:id', '/id/:id')
+router.add('GET', '/id/:id/abc/def', '/id/:id/abc/def')
+router.add('GET', '/id/:id/abd/efd', '/id/:id/abd/efd')
+router.add('GET', '/id/:id/name/:name', '/id/:id/name/:name')
+router.add('GET', '/id/:id/name/a', '/id/:id/name/a')
+router.add('GET', '/dynamic/:name/then/static', '/dynamic/:name/then/static')
+router.add('GET', '/deep/nested/route', '/deep/nested/route')
+router.add('GET', '/rest/*', '/rest/*')
 
-// c
-console.log(router.match('GET', '/public/takodachi.png'))
-
-// router.add('GET', '/v1/genres/:id', '/g/:id')
-// router.add('GET', '/v1/statuse', '/s')
-// router.add('GET', '/v1/statuse/:id', '/s/:id')
-
-Bun.serve({
-    port: 8080,
-    fetch() {
-        return new Response('A')
-    }
-})
+console.log(router.match('GET', '/deep/nested/route'))

@@ -315,6 +315,13 @@ export class Raikiri<T> {
 
         return iterateFirst(path.slice(1), node, {})
     }
+
+    private _m(method: string, path: string) {
+        const node = this.root[method]
+        if (!node) return
+
+        return iterateFirst(path.slice(1), node, {})
+    }
 }
 
 const iterateFirst = <T>(
