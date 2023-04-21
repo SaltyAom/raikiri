@@ -1,3 +1,7 @@
+# 0.1.2 - 21 Apr 2023
+Fix:
+- Register mangled path
+
 # 0.1.0-beta.1 - 21 Mar 2023
 Improvement:
 - Return nullable or literal

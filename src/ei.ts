@@ -244,13 +244,25 @@ export class Raikiri<T> {
                     node.children = newNode.children
                     node = newChildNode
                 } else {
-                    const newChildNode = createNode<T>({
-                        part: path.slice(1)
-                    })
+                    if (node.children.size) {
+                        if (!node.children.has(path.charCodeAt(0)))
+                            node.children.set(
+                                path.charCodeAt(0),
+                                createNode<T>({
+                                    part: path.slice(1)
+                                })
+                            )
 
-                    node.children.set(path.charCodeAt(0), newChildNode)
+                        node = node.children.get(path.charCodeAt(0))!
+                    } else {
+                        const newChildNode = createNode<T>({
+                            part: path.slice(1)
+                        })
 
-                    node = newChildNode
+                        node.children.set(path.charCodeAt(0), newChildNode)
+
+                        node = newChildNode
+                    }
                 }
 
                 continue operation
@@ -372,12 +384,12 @@ const iterateFirst = <T>(
             else return
         }
 
-        if (node.store)
+        if (node.store) {
             return {
                 store: node.store,
                 params
             }
-        else return
+        } else return
     }
 
     return iterate(path.slice(node.part.length + 1), child, params)
@@ -439,12 +451,12 @@ const iterate = <T>(
             else return
         }
 
-        if (node.store)
+        if (node.store) {
             return {
                 store: node.store,
                 params
             }
-        else return
+        } else return
     }
 
     return iterate(path.slice(node.part.length + 1), child, params)

@@ -198,4 +198,16 @@ describe('Raikiri', () => {
             router.match('GET', '/public/takodachi/ina.png')?.params['*']
         ).toBe('takodachi/ina.png')
     })
+
+    it('restore mangled path', () => {
+        const router = new Raikiri()
+
+        router.add('GET', '/users/:userId', '/users/:userId')
+        router.add('GET', '/game', '/game')
+        router.add('GET', '/game/:gameId/state', '/game/:gameId/state')
+        router.add('GET', '/game/:gameId', '/game/:gameId')
+
+        expect(router.match('GET', '/game/1/state')?.store).toBe("/game/:gameId/state")
+        expect(router.match('GET', '/game/1')?.store).toBe("/game/:gameId")
+    })
 })
