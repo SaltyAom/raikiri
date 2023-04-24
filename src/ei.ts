@@ -124,7 +124,25 @@ export class Raikiri<T> {
 
                 const unioned = unionChars(node.part, path)
 
-                if (unioned === path) continue operation
+                if (unioned === path) {
+                    if (node.part !== path) {
+                        const migrateNode = { ...node }
+                        migrateNode.part = node.part.slice(path.length + 1)
+
+                        const newNode = createNode<T>({
+                            children: {
+                                [node.part.charCodeAt(path.length)]: migrateNode
+                            }
+                        })
+
+                        node.part = path
+                        node.children = newNode.children
+
+                        node
+                    }
+
+                    continue operation
+                }
 
                 if (
                     !unioned &&
@@ -198,7 +216,7 @@ export class Raikiri<T> {
                             node.children.set(
                                 newKey,
                                 createNode<T>({
-                                    part: left.slice(-1),
+                                    part: left.slice(0, -1),
                                     children: {
                                         [candidate.part.charCodeAt(
                                             innerUnioned.length - 1
@@ -348,6 +366,8 @@ const iterateFirst = <T>(
     | undefined => {
     const child = node.children.get(path.charCodeAt(node.part?.length))
 
+    if (node.part && path.slice(0, node.part.length) !== node.part) return
+
     if (!child) {
         const dynamic = node.children.get(COLON)
         if (dynamic) {
@@ -412,15 +432,17 @@ const iterate = <T>(
             params
         }
 
+    if (node.part && path.slice(0, node.part.length) !== node.part) return
+
     const child = node.children.get(path.charCodeAt(node.part?.length))
 
     if (!child) {
         const dynamic = node.children.get(COLON)
         if (dynamic) {
-            const nextSlash = path.indexOf('/', node.part.length)
+            const nextSlash = path.indexOf('/', node.part?.length)
 
             if (nextSlash === -1) {
-                params[dynamic.param!] = path.slice(node.part.length)
+                params[dynamic.param!] = path.slice(node.part?.length)
 
                 if (dynamic.store)
                     return {
@@ -430,7 +452,7 @@ const iterate = <T>(
                 return
             }
 
-            params[dynamic.param!] = path.slice(node.part.length, nextSlash)
+            params[dynamic.param!] = path.slice(node.part?.length, nextSlash)
 
             return iterate(
                 path.slice(nextSlash),
@@ -438,7 +460,7 @@ const iterate = <T>(
                 params
             )
         } else if (node.children.has(WILDCARD)) {
-            if (node.part) params['*'] = path.slice(node.part.length)
+            if (node.part) params['*'] = path.slice(node.part?.length)
             else params['*'] = path
 
             const store = node.children.get(WILDCARD)!.store

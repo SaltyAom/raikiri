@@ -207,7 +207,43 @@ describe('Raikiri', () => {
         router.add('GET', '/game/:gameId/state', '/game/:gameId/state')
         router.add('GET', '/game/:gameId', '/game/:gameId')
 
-        expect(router.match('GET', '/game/1/state')?.store).toBe("/game/:gameId/state")
-        expect(router.match('GET', '/game/1')?.store).toBe("/game/:gameId")
+        expect(router.match('GET', '/game/1/state')?.store).toBe(
+            '/game/:gameId/state'
+        )
+        expect(router.match('GET', '/game/1')?.store).toBe('/game/:gameId')
+    })
+
+    it('should be a ble to register param after same prefix', () => {
+        const router = new Raikiri()
+
+        router.add('GET', '/api/abc/view/:id', '/api/abc/view/:id')
+        router.add('GET', '/api/abc/:type', '/api/abc/:type')
+
+        expect(router.match('GET', '/api/abc/type')).toEqual({
+            store: '/api/abc/:type',
+            params: {
+                type: 'type'
+            }
+        })
+
+        expect(router.match('GET', '/api/abc/view/1')).toEqual({
+            store: '/api/abc/view/:id',
+            params: {
+                id: '1'
+            }
+        })
+    })
+
+    it('use exact match for part', () => {
+        const router = new Raikiri()
+
+        router.add('GET', '/api/search/:term', '/api/search/:term')
+        router.add('GET', '/api/abc/view/:id', '/api/abc/view/:id')
+        router.add('GET', '/api/abc/:type', '/api/abc/:type')
+
+        expect(router.match('GET', '/api/abc/type')?.store).toBe(
+            '/api/abc/:type'
+        )
+        expect(router.match('GET', '/api/awd/type')).toBe(undefined)
     })
 })

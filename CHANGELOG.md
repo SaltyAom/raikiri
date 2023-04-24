@@ -1,3 +1,9 @@
+# 0.1.3 - 25 Apr 2023
+Fix:
+- using mangled part unioned instead of accidental first char
+- using exact match for left over part
+- should be a ble to register param after same prefix
+
 # 0.1.2 - 21 Apr 2023
 Fix:
 - Register mangled path
