@@ -343,7 +343,7 @@ export class Raikiri<T> {
                 params: {}
             }
 
-        return iterateFirst(path.slice(1), node, {})
+        return iterateFirst(path, node, {})
     }
 
     private _m(method: string, path: string) {
@@ -364,6 +364,7 @@ const iterateFirst = <T>(
           params: Record<string, string>
       }
     | undefined => {
+    path = path.slice(1)
     const child = node.children.get(path.charCodeAt(node.part?.length))
 
     if (node.part && path.slice(0, node.part.length) !== node.part) return
